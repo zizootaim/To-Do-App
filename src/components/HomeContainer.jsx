@@ -233,7 +233,7 @@ const HomeContainer = () => {
                   <ul className="item__list">
                     <li>
                       <p>
-                        name : <span>{i.name}</span>
+                      what to do : <span>{i.name}</span>
                       </p>
                     </li>
                     <li>

@@ -68,7 +68,7 @@ const FormContainer = () => {
               });
             }}
           />
-          <span className="form__input-label">Name</span>
+          <span className="form__input-label">What To Do ?</span>
         </div>
         <div className="form__control">
           <input
