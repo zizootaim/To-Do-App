@@ -117,9 +117,13 @@ const HomeContainer = () => {
       const filterPlaces = state.items.map((i) => i.place);
 
       setFilterTypes({
-        filterCategories,
+        filterCategories: filterCategories.filter(
+          (a, b) => filterCategories.indexOf(a) == b
+        ),
         filterDate: newFilterDate,
-        filterPlaces,
+        filterPlaces: filterPlaces.filter(
+          (a, b) => filterPlaces.indexOf(a) == b
+        ),
         existed: true,
       });
     } else {
