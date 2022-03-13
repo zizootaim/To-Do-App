@@ -40,7 +40,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: (https://to-do-z.netlify.app/)
+- Live Site URL: (https://to-do-o.netlify.app/)
 
 ## My process
 
