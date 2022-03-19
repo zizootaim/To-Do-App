@@ -6,6 +6,8 @@ const HomeContainer = () => {
   const [filterTypes, setFilterTypes] = useState({ existed: false });
   const [filteredItems, setFilteredItems] = useState([]);
 
+  // Lists Functions
+
   const showFilterList = (e) => {
     const filterList = e.target.parentElement.querySelector(".filter__list");
     let height = 55;
@@ -25,7 +27,7 @@ const HomeContainer = () => {
       targetEl =
         e.target.parentElement.parentElement.parentElement.parentElement;
     }
-    targetEl.style.height = "45px";
+    targetEl.style.height = "34px";
   };
   const showSubMenu = (e) => {
     let target = e.target;
@@ -36,6 +38,20 @@ const HomeContainer = () => {
       closeFilterList(e);
     }
   };
+  // Show Item Function
+  const showItem = (e) => {
+    let show = true,
+      item = "";
+    if (!e.target.className.includes("item__container"))
+      item = e.target.parentElement;
+    else item = e.target;
+    if (e.target.className.includes("close-item-btn")) {
+      show = false;
+    }
+    if (show) item.classList.add("open");
+    else item.classList.remove("open");
+  };
+  // Filter Items Function
 
   const filterItems = (e, obj) => {
     const { type, payload } = obj;
@@ -44,7 +60,6 @@ const HomeContainer = () => {
       case "category":
         {
           newItems = filteredItems.filter((i) => i.category == payload);
-          console.log(newItems);
         }
         break;
       case "date":
@@ -83,6 +98,8 @@ const HomeContainer = () => {
     setFilteredItems(newItems);
     closeFilterList(e);
   };
+
+  // Get Filter Types
 
   useEffect(() => {
     if (state.items.length >= 1) {
@@ -134,9 +151,9 @@ const HomeContainer = () => {
   return (
     <section className="home">
       <h1 className="home__title">
-      <p className="copyright">© 2022 Made By Ziad Otaim.</p>
+        <p className="copyright">© 2022 Made By Ziad Otaim.</p>
 
-        {state.items.length >= 1 ? "What is Next ?" : "Add Your First To Do"}
+        <span>{state.items.length >= 1 ? "" : "Add Your First To Do"}</span>
       </h1>
       {filterTypes.existed ? (
         <>
@@ -154,7 +171,7 @@ const HomeContainer = () => {
                       filterItems(e, { type: { name: "category" }, payload: c })
                     }
                   >
-                    {c}
+                    {c.length >= 10 ? `${c.slice(0, 14)}...` : c}
                   </li>
                 ))}
               </ul>
@@ -229,26 +246,38 @@ const HomeContainer = () => {
           filteredItems.length >= 1 ? (
             filteredItems.map((i) => {
               return (
-                <div className={`item${i.done ? " done" : ""}`} key={i.id}>
+                <div
+                  className={`item__container${i.done ? " done" : ""}`}
+                  key={i.id}
+                  onClick={(e) => showItem(e)}
+                >
+                  <i className="fa fa-times close-item-btn"></i>
                   <div className="done-top">
                     <i className="fa fa-check"></i>
                   </div>
-
+                  <div className="item__title">
+                    {i.name.length >= 40 ? `${i.name.slice(0, 30)}...` : i.name}
+                  </div>
                   <ul className="item__list">
                     <li>
                       <p>
-                      what to do : <span>{i.name}</span>
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        category : <span>{i.category}</span>
+                        category :{" "}
+                        <span>
+                          {i.category.length >= 35
+                            ? `${i.category.slice(0, 30)}...`
+                            : i.category}
+                        </span>
                       </p>
                     </li>
 
                     <li>
                       <p>
-                        place : <span>{i.place}</span>
+                        place :{" "}
+                        <span>
+                          {i.place.length >= 35
+                            ? `${i.place.slice(0, 30)}...`
+                            : i.place}
+                        </span>
                       </p>
                     </li>
                     <li>
@@ -290,7 +319,7 @@ const HomeContainer = () => {
             })
           ) : (
             <div className="empty__list">
-              <p>The List is Empty</p>
+              <p>Nothing...</p>
               <button
                 className="filter-btn"
                 onClick={() => {

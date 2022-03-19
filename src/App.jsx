@@ -1,5 +1,4 @@
 import React from "react";
-import "antd/dist/antd.css";
 import "./App.css";
 import { AppProvider } from "./AppContext";
 import FormContainer from "./components/FormContainer";

@@ -3,17 +3,22 @@ import { v4 as uuidv4 } from "uuid";
 
 const AppContext = React.createContext();
 
-const initialState = {
-  formItem: {},
-  items: [],
-  isEditing: false,
-};
-
 export const AppProvider = ({ children }) => {
-  const [state, setState] = useState(initialState);
-
-  // Items Operations
+  // Initializing State
+  Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+  });
+  const currentDate = new Date().toDateInputValue();
+  const [state, setState] = useState(() => {
+    return {  formItem: {date:currentDate},
+    items: [],
+    isEditing: false,}
+  });
+  // Item CRUD Operations
   const addItem = (item) => {
+    console.log(item)
     const ID = uuidv4();
     const newItem = { ...item, id: ID };
     setState(() => {
@@ -54,6 +59,8 @@ export const AppProvider = ({ children }) => {
     setState(() => {
       return { ...state, isEditing: true, formItem: item };
     });
+    window.scrollTo({top:0,behavior:'smooth'})
+    
   };
 
  // Form UI Styles
@@ -72,7 +79,7 @@ export const AppProvider = ({ children }) => {
     inputs[1].value = i.name;
     inputs[2].value = i.place;
     inputs[3].value = i.date;
-    inputs[4].value = i.time;
+
     document.querySelectorAll(".form__input").forEach((input) => {
       placeLabels(input);
     });
@@ -95,7 +102,7 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ state, addItem, setState, placeLabels, editItems, editItem,deleteItem,completeItem,updateForm }}
+      value={{ state, addItem, setState, placeLabels, editItems, editItem,deleteItem,completeItem,updateForm,currentDate }}
     >
       {children}
     </AppContext.Provider>

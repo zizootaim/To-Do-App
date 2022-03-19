@@ -2,10 +2,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap");
 
 /* Variables */
+
 :root {
   --body-bg: #f5f5f6;
-  --primary-color: #140078;
+  --primary-color: #000041;
   --light-color: #556370;
+  --input-bg: #462a9b;
+  --item-bg: #fff;
+  --text-color-light: #000;
+  --text-color-dark: #462a9b;
 }
 /* Global Styles */
 * {
@@ -16,6 +21,7 @@
 }
 body {
   background: var(--body-bg);
+  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 ul {
@@ -27,7 +33,10 @@ a {
 img {
   width: 100%;
 }
-
+button {
+  background-color: var(--input-bg);
+  letter-spacing: 0.06rem;
+}
 /* Form */
 
 .form__wrapper {
@@ -38,12 +47,40 @@ img {
   flex-direction: column;
   width: 18rem;
   height: 100vh;
+  position: relative;
 }
 
 .heading {
   font-size: 2rem;
   color: #fff;
   text-align: center;
+  font-weight: 600;
+}
+.heading span:nth-child(2) {
+  margin: 0 1rem;
+}
+.error {
+  color: #fff;
+  text-transform: capitalize;
+  width: 100%;
+  padding: 0.3rem;
+  text-align: center;
+  background-color: rgb(182, 17, 17);
+  border-radius: 1rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 16rem;
+  margin: auto;
+  top: 6.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+.error.show {
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 .meun-btn {
   display: none;
@@ -52,17 +89,21 @@ img {
   font-size: 1.2rem;
   color: #fff;
   right: 1.5rem;
+  z-index: 100;
   cursor: pointer;
 }
 .current__operarion {
+  margin: 1rem 0 1rem;
   color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
   font-size: 1.1rem;
 }
 .form__control {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 2rem 0;
+  margin: 2rem 0 2rem;
   position: relative;
 }
 
@@ -119,20 +160,22 @@ img {
   width: 48%;
 }
 .add__btn {
-  padding: 0.2rem;
-  width: 8rem;
+  padding: 0.5rem;
+  width: 100%;
   text-align: center;
   color: #fff;
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.05rem;
-  border-radius: 1.4rem;
+  border-radius: 2rem;
   border: none;
   outline: none;
-  background-color: #512da8;
   cursor: pointer;
+  transition: 0.3s;
 }
-
+.add__btn:hover {
+  background-color: #506874;
+}
 /* Home */
 
 .home {
@@ -145,48 +188,82 @@ img {
 .home__title {
   font-size: 2rem;
   font-weight: 600;
-  color: #512ea8;
+  color: var(--input-bg);
   text-align: center;
   position: relative;
 }
+.home__title span {
+  position: fixed;
+  top: 40%;
+  bottom: 40%;
+  left: 40%;
+  transform: translate(-30%,14rem);
+}
 .items__wrapper {
-  margin-top: 5rem;
+  margin-top: 3rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 17rem));
+  justify-content: center;
   gap: 1rem;
 }
-.item {
+.item__container {
   position: relative;
-  padding: 1rem;
-  background-color: #fff;
+  background-color: var(--item-bg);
   text-transform: capitalize;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
+  height: 40px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s ease-out;
+  padding: 0.7rem 1rem;
+  width: 100%;
+}
+
+.item__container.open {
+  height: 100%;
+}
+.close-item-btn {
+  position: absolute;
+  right: 0.6rem;
+  font-size: 1.1rem;
+  display: none;
+}
+
+.item__container.open .close-item-btn {
+  display: block;
+}
+.item__title {
+  padding-bottom: -1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  text-align: center;
 }
 .done-icon {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: green;
+  color: #fff;
   font-size: 1.2rem;
 }
-
 .item__list li p {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #000;
+  color: var(--text-color-light);
   transition: 0.2s;
 }
 .item__list li p span {
-  color: #512ea8;
+  color: var(--text-color-dark);
   font-weight: 800;
 }
 
 .item__btns {
-  width: 80%;
+  width: 90%;
   margin: 2rem auto 0;
   display: flex;
   justify-content: space-between;
@@ -196,7 +273,6 @@ img {
   padding: 0.1rem 0.5rem;
   border: none;
   outline: none;
-  margin: 0 1rem;
   cursor: pointer;
   background: none;
 }
@@ -209,7 +285,7 @@ img {
   color: green;
 }
 .edit__btn i {
-  color: #512ea8;
+  color: var(--primary-color);
 }
 .delete__btn i {
   color: red;
@@ -217,9 +293,8 @@ img {
 
 .done-top {
   position: absolute;
-  top: 0rem;
-  left: 45%;
-  right: 45%;
+  top: 0.5rem;
+  left: 1%;
   color: #fff;
   background-color: green;
   padding: 0.2rem;
@@ -244,9 +319,9 @@ img {
 
 .filter__wrapper {
   width: 80%;
-  margin: auto;
+  margin: 2rem auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   gap: 1rem;
 }
 .filter {
@@ -254,7 +329,7 @@ img {
   flex-direction: column;
   align-items: center;
   font-size: 1.1rem;
-  height: 45px;
+  height: 35px;
   transition: 0.3s;
   overflow: hidden;
 }
@@ -264,19 +339,18 @@ img {
   align-self: flex-start;
   font-family: "Roboto", sans-serif;
   padding: 0.4rem 1rem;
-  border: 2px solid #512ea8;
+  border: 2px solid var(--input-bg);
   outline: none;
-  background-color: #512ea8;
+  background-color: var(--input-bg);
   color: #fff;
   text-transform: capitalize;
-  border-radius: 0.2rem;
+  border-radius: 1rem;
   transition: 0.4s;
   cursor: pointer;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 .filter-btn:hover {
   background: none;
-  color: #140078;
+  color: var(--primary-color);
 }
 
 .filter__list {
@@ -294,6 +368,7 @@ img {
   transition: 0.2s;
   font-size: 1rem;
   font-weight: 600;
+  overflow: hidden;
   cursor: pointer;
 }
 .filter__list li:last-child {
@@ -321,49 +396,99 @@ img {
   color: #fff;
   z-index: 10;
 }
-.date-filter{
+.date-filter {
   position: relative;
 }
-.date-filter .fa{
+.date-filter .fa {
   position: absolute;
   right: 0;
-  top: .5rem;
+  top: 0.5rem;
   cursor: pointer;
 }
-.title{
+.title {
   text-align: center;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #140078;
-  letter-spacing: .1rem;
+  color: var(--primary-color);
+  margin: 2rem;
+  letter-spacing: 0.1rem;
 }
-.empty__list{
+.empty__list {
   width: 100%;
   display: grid;
   place-items: center;
 }
-.empty__list p{
+.empty__list p {
   font-size: 2rem;
   font-weight: 500;
 }
-.empty__list .filter-btn{
+.empty__list .filter-btn {
   width: auto;
+  margin: 2rem;
 }
 
-.copyright{
+.copyright {
   width: 8rem;
   position: absolute;
-    top: -.6rem;
-    right: 0;
+  top: -0.6rem;
+  right: 0;
   font-weight: 600;
-  font-size: .6rem;
+  font-size: 0.6rem;
   color: #000;
 }
 
+/* Animations */
+.form__control,
+.add__btn {
+  opacity: 0;
+  filter: blur(4px);
+}
+.home {
+  transform: scale(0.94);
+  animation: scale 1s 0.2s forwards;
+}
+.home * {
+  opacity: 0;
+  filter: blur(4px);
+  animation: fade-in 0.5s 0.2s forwards;
+}
+
+.form__control,
+.add__btn {
+  animation: fade-in 1s 0.4s forwards;
+}
+.current__operarion,
+.heading {
+  opacity: 0;
+  filter: blur(4px);
+}
+.heading {
+  animation: fade-in 1s 0.1s forwards;
+}
+.current__operarion {
+  animation: fade-in 1s 0.2s forwards;
+}
+
+@keyframes scale {
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
 
 /* Media Queries */
 
 @media screen and (max-width: 670px) {
+  .heading{
+    font-size: 1.6rem;
+    margin-top: .3rem;
+  }
   .form__wrapper {
     position: unset;
     display: flex;
@@ -373,6 +498,9 @@ img {
     overflow-y: hidden;
     padding-top: 0.2rem;
     transition: height 0.4s;
+  }
+  .error {
+    top: 5.6rem;
   }
   .form__wrapper.show-menu {
     height: 589px;
@@ -385,8 +513,7 @@ img {
   }
   .home {
     position: unset;
-
-    width: 95%;
+    width: 100%;
     margin: auto;
     padding: 1rem;
   }
@@ -396,12 +523,16 @@ img {
   .filter-btn {
     width: 100%;
   }
-  .copyright{
+  .home__title span {
+    position: unset;
+    font-size: 1.3rem;
+    transform: translate(5rem,-5rem);
+  }
+  .items__wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+  .copyright {
     left: -1rem;
     top: -0.8rem;
   }
-}
-
-body {
-  background-color: #e8eaf6;
 }
